@@ -3,6 +3,12 @@ session_start();
 ?>
 
 
+<?php 
+    $uva_id = $_GET['uva_id'];
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
@@ -13,7 +19,7 @@ session_start();
     <link rel="icon" href="images/icon-main.png">
     <title>Programming Assistant</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <script src=""></script>
 </head>
 
 <body>
@@ -59,25 +65,42 @@ session_start();
         <script> 
          
 
-            async function getDataCF(){
+            async function getDataUVA(){
                 console.log("retrieving api data");
 
-                const response = await fetch(apiUrlCF);
+                const response = await fetch(apiUrlUVA);
                 const data = await response.json();
-                //console.log(data.result);
-                var i;
-                for(i=0; i<data.result.length; i++){
+                console.log('ddd',data);
 
+                const uva_languages =['','ANSI C', 'Java','C++','Pascal','C++11'];
+                const uva_verdict_tag = [
+                    {no : 10, verdict: 'Submission error'},
+                    {no : 15, verdict: 'Can\'t be judged'},
+                    {no : 20, verdict: 'In queue'},
+                    {no : 30, verdict: 'Compile error'},
+                    {no : 35, verdict: 'Restricted function'},
+                    {no : 40, verdict: 'Runtime error'},
+                    {no : 45, verdict: 'Output limit'},
+                    {no : 50, verdict: 'Time limit'},
+                    {no : 60, verdict: 'Memory limit'},
+                    {no : 70, verdict: 'Wrong answer'},
+                    {no : 80, verdict: 'PresentationE'},
+                    {no : 90, verdict: 'Accepted'}
+                ]
+                    
+                for(i=0; i<data.subs.length; i++){
+                    
                     //console.log(data.result[i].problem.name);
-                    problemName[i] = data.result[i].problem.name;
-                    timeSubmited[i] = data.result[i].creationTimeSeconds;
-                    timeUsed[i] = data.result[i].timeConsumedMillis;
-                    memoryUsed[i] = data.result[i].memoryConsumedBytes;
-                    Language[i] = data.result[i].programmingLanguage;
-                    verdict[i] = data.result[i].verdict;
-                    contestId[i] = data.result[i].contestId;
-                    category[i] = data.result[i].problem.index;
 
+                    userName = data.uname;
+                    problemName[i] = data.subs[i][1];
+                    timeSubmited[i] = data.subs[i][4];
+                    timeUsed[i] = data.subs[i][3];
+                    memoryUsed[i] = 'N/A';
+                    Language[i] = uva_languages[data.subs[i][5]];
+                    verdict[i] = data.subs[i][2];
+                    //contestId[i] = data.result[i].contestId;
+                    //category[i] = data.result[i].problem.index;
 
                     //convert from unix format
                     let unix_timestamp = timeSubmited[i];
@@ -85,9 +108,15 @@ session_start();
                     var hours = date.getHours();
                     var minutes = "0" + date.getMinutes();
                     var seconds = "0" + date.getSeconds();
+                    timeSubmited[i] = String(date).slice(0, 25);
 
-                    timeSubmited[i] = String(date).slice(0, 25)
-                    
+                    //converting to text verdict tag
+                    for(var j=0; j<uva_verdict_tag.length ; j ++){
+                        if (uva_verdict_tag[j].no == verdict[i]){
+                            verdict[i] = uva_verdict_tag[j].verdict;
+                            break;
+                        }
+                    }
                 }
                 console.log("done retriving");
             }
@@ -116,7 +145,7 @@ session_start();
                         $handle_cc = $result[5];
                         $handle_uv = $result[6];
 
-                        $_SESSION['uva_id'] = '896795';
+                        //$_SESSION['uva_id'] = '896795';
                         
                 }
             ?>"
@@ -126,10 +155,10 @@ session_start();
             var handle_cc="<?php echo $handle_cc?>"; 
             var handle_uv="<?php echo $handle_uv?>"; 
             
-            //handle_uv = '896795'; ////have to change here
-            console.log( handle_cf,'--------', handle_ac,'---------', handle_cc,'--------', handle_uv);
+            handle_uv = "<?php echo $uva_id?>"; ////have to change here
+            console.log( handle_cf,'--------', handle_ac,'---------', handle_cc,'--------', handle_uv)
           
-            const userName = handle_cf;
+            var userName = '';
             const problemName = [];
             const timeSubmited = [];
             const timeUsed = [];  
@@ -140,19 +169,17 @@ session_start();
             const category = [];
 
 
-            apiUrlCF = `https://codeforces.com/api/user.status?handle=${userName}`; 
-            getDataCF();
-
-            //apiUrlUVA = `https://uhunt.onlinejudge.org/api/subs-user/${userName}`;
+            //apiUrlCF = `https://codeforces.com/api/user.status?handle=${userName}`; 
             //getDataCF();
+
+            apiUrlUVA = `https://uhunt.onlinejudge.org/api/subs-user/${handle_uv}`;
+                        
+            getDataUVA();
             
             
         </script>
             
         
-
-
-
 
         <div class="table">
             <table align="center" cellspacing="20px" class="userSub">
@@ -161,19 +188,14 @@ session_start();
                     <th width = '180px'>Submission Time</th>
                     <th>Problem Name</th>
 
-
-
                     <th id = 'online_judge_change'> 
-
-                    <div class="dropdown">
-                        <button onclick="myFunction()" class="dropbtn">Online Judge</button>
-                        <div id="myDropdown" class="dropdown-content">
-                            <a href="homepage_UVA.php?uva_id=<?php echo $handle_uv?>">UVA</a>
-                            <a href="homepage_AC.php?atcoder_id=<?php echo $handle_ac?>">Atcoder</a>
-                            
+                        <div class="dropdown">
+                            <button onclick="myFunction()" class="dropbtn">Online Judge</button>
+                            <div id="myDropdown" class="dropdown-content">
+                                <a href="homepage.php">Codeforces</a>
+                                <a href="homepage_AC.php?atcoder_id=<?php echo $handle_ac?>">Atcoder</a>
+                            </div>
                         </div>
-                    </div>
-                    
                     </th>
 
                     <th>Used Language</th>
@@ -183,7 +205,7 @@ session_start();
 
 
                 <script>
-
+                    
                     //dropdown list toggoling
                     function myFunction() {
                        document.getElementById("myDropdown").classList.toggle("show");
@@ -205,10 +227,11 @@ session_start();
 
 
 
+
                     const tableSize = 100;
                     
                     for(var i= 0; i<tableSize; i++){
-                        //console.log('Now table')
+                        console.log('ekhn table')
                         document.write("<tr>");
                             document.write("<td id='userName"+i+"'>" + "--" +"</td>");
                             document.write("<td id='timeSubmitted"+i+"'>" + "--"+"</td>");
@@ -221,42 +244,46 @@ session_start();
                     }
 
                     setTimeout(() => {
-                        console.log('');
-                        
+                        console.log('-------------------');
                         for(var i= 0; i<tableSize; i++){
                             //console.log(problemName[i]);
                             document.getElementById('userName'+i).textContent = userName;
                             document.getElementById('timeSubmitted'+i).textContent = timeSubmited[i];
                             document.getElementById('problemName'+i).textContent = problemName[i];
-                            document.getElementById('ojName'+i).textContent = "Codeforces";
+                            document.getElementById('ojName'+i).textContent = "UVA";
                             document.getElementById('Language'+i).textContent = Language[i];
                             document.getElementById('verdict'+i).textContent = verdict[i];
                             document.getElementById('timeUsed'+i).textContent = timeUsed[i]+' ms';
 
                             // linking problem name
                             var prbLink = document.getElementById('problemName'+i)
-                            prbLink.innerHTML=  '<a href="https://codeforces.com/contest/'+contestId[i]+'/problem/'+category[i]+'/" target="_blank">'+problemName[i]+'</a>';
+                            prbLink.innerHTML=  '<a href="https://onlinejudge.org/index.php?option=onlinejudge&Itemid=8&page=show_problem&problem="/" target="_blank">'+problemName[i]+'</a>';
                             
-                            var ProfileLink = document.getElementById('userName'+i)
-                            ProfileLink.innerHTML=  '<a href="https://codeforces.com/profile/'+userName+'/" target="_blank">'+userName+'</a>';
-                            //coloring verdict https://codeforces.com/profile/Mahathir_CSE16
+                            var profileLink = document.getElementById('userName'+i)
+                            let purl ='https://uhunt.onlinejudge.org/u/'+userName;
+                            profileLink.innerHTML=  `<a href="${purl}"/" target="_blank">${userName}</a>`;
+                            //coloring verdict https://uhunt.onlinejudge.org/u/seventyeoght
                             const verd = document.getElementById('verdict'+i);
 
-                            if(verd.textContent == 'OK')
+                            if(verd.textContent == 'Accepted')
                                 verd.style.color = "#28A745";
-                            else if(verd.textContent == 'WRONG_ANSWER')
+                            else if(verd.textContent == 'Wrong answer')
                                 verd.style.color = "#E61010";
-                            else if(verd.textContent == 'COMPILATION_ERROR')
+                            else if(verd.textContent == 'Compile error')
                                 verd.style.color = "#F55516";
-                            else if(verd.textContent == 'RUNTIME_ERROR')
+                            else if(verd.textContent == 'Runtime error')
                                 verd.style.color = "#9D40C8";
-                            else if(verd.textContent == 'TIME_LIMIT_EXCEEDED')
+                            else if(verd.textContent == 'Time limit')
                                 verd.style.color = "#304088";
+                            else if(verd.textContent == 'PresentationE')
+                                verd.style.color = "#304078"
                     }
-                    }, 4000);
+                    }, 3000);
                 </script>
                 
-                <!--<?php $_SESSION['uva_id'] = '<script>handle_uv</script>' ?>-->>
+
+                
+                
 
                 <script>
                     
