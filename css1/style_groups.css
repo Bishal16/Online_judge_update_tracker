@@ -1,0 +1,84 @@
+
+
+.groupBox{
+    margin: 0px;
+    padding: 10px;
+    background-color: white;
+    padding-left: 50px;
+}
+
+  .groupCreate{
+    float:right;
+    margin-top: 25px;
+    margin-right: 30px;
+    background-color: white;
+    text-align: center;
+}
+.content{
+    padding: 30px;
+    font-family: cursive;
+}
+.grpName{
+    margin-left: 20px;
+    color: rgb(19, 18, 18);
+    font-family: cursive;
+}
+
+
+/* The popup form - hidden by default */
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    font-size: 15px;
+}
+.form-popup {
+    background-image: linear-gradient(rgb(139, 187, 195), rgb(178, 235, 232));
+    height: 250px;
+    border-radius: 20px;
+    padding: 15px;
+    margin-right: 35%;
+    font-family: cursive;
+}
+
+
+.groupHeader{
+    background-color: rgba(73, 71, 73, 0.781);
+    margin: 30px;
+    padding: 1px;
+    color: white; 
+}
+
+.oj{
+    list-style-type: none;
+    display: inline;
+    background-color: rgb(155, 155, 149);
+    padding: 5px;
+    margin-left: 50px;
+    border-radius: 5px;
+    width: 60px;
+    font-size: 23px;
+}
+
+.table-userSub{
+    margin: 5%;
+    margin-top: 0px;
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    color: rgb(28, 29, 29);
+    background-color: rgb(225, 235, 235);
+    border-radius: 20px;
+    font-family: cursive;
+}
+
+.table th{
+  font-size: 25px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: rgb(218, 212, 201);  
+  border-radius: 25px;
+}

@@ -1,0 +1,108 @@
+body {
+  background-color: rgb(255, 255, 255);
+  height: 10%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+.navbarBox{
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+}
+.navLeft{
+  display:inline-block;
+  background-color: white;
+}
+.navRight{
+  float:right;
+  margin-right: 25px;
+  background-color: white;
+}
+
+.nav_icon{
+  height: 25px;
+  width: 25x;
+  padding: 0px;
+}
+
+ul.navBarUl {    
+    list-style-type: none;
+    overflow: hidden;
+    background-color: white;
+}
+
+li.navBarList {
+  float: left;
+  margin-right: 30px;
+}
+
+li.navBarList a {
+  display: inline;
+  color: black;
+  text-align: center;
+  padding: 10px 10px 10px 0px ;
+  text-decoration: none;
+  font-size: 25px;
+  border-radius: 10px;
+}
+
+/* Change the link color to #111 (black) on hover */
+li.navBarList a:hover {
+  background-color: rgb(223, 219, 219);
+}
+
+
+
+
+
+
+/* designing the online jdge dropdown */
+.dropbtn {
+  background-color: rgb(218, 212, 201);
+  
+  
+  font-size: 22px;
+  font-family:  cursive;
+  color: rgb(28, 29, 29);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  }
+
+  .dropbtn:hover, .dropbtn:focus {
+      background-color: #ddd;
+  }
+
+  .dropdown {
+
+  position: relative;
+  display: inline-block;
+  }
+
+  .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+  }
+  .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  }
+
+  .dropdown a:hover {background-color: #ddd;}
+
+  .show {display: block;} 
+
+
+

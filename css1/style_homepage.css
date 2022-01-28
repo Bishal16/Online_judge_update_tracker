@@ -1,0 +1,52 @@
+.content{
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    font-family:  Neucha,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .content h1{
+    text-align: center;
+    font-size: 42px;
+    margin-top: 1px;
+    font-family:  cursive;
+  }
+
+.table{
+    margin: 5%;
+    margin-top: 0px;
+    padding: 5px;
+    text-align: center;
+    font-size: 20px;
+    color: rgb(28, 29, 29);
+    background-color: rgb(225, 235, 235);
+    border-radius: 20px;
+    font-family: cursive;
+}
+
+.table th{
+  font-size: 22px;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: rgb(218, 212, 201);  
+  border-radius: 25px;
+}
+
+
